@@ -12,22 +12,28 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb2d;
     private bool grounded = false;
     public Transform groundCheck;
+    private BoxCollider2D boxCollider;
 
     // Use this for initialization
     void Start () 
     {
         moveDirection = new Vector2(0, 0);
         rb2d = GetComponent<Rigidbody2D>();
-        
-	}
+        boxCollider = GetComponent<BoxCollider2D>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () 
     {
-        grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground"));
+        grounded = Physics2D.Linecast(transform.position + new Vector3(boxCollider.size.x / 2, boxCollider.size.y / 2, 0), groundCheck.position + new Vector3(boxCollider.size.x / 2, 0, 0), 1 << LayerMask.NameToLayer("Ground"));
+        if(!grounded)
+            grounded = Physics2D.Linecast(transform.position + new Vector3(-boxCollider.size.x / 2, boxCollider.size.y / 2, 0), groundCheck.position - new Vector3(boxCollider.size.x / 2, 0, 0), 1 << LayerMask.NameToLayer("Ground"));
 
-        rb2d.velocity = moveDirection;
-        
+        if (moveDirection.y > 0)
+            grounded = false;
+
+        rb2d.velocity = moveDirection;        
 
         moveDirection.y += gravity * Time.deltaTime;
         if (grounded)
