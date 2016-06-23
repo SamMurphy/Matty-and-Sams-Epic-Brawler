@@ -16,5 +16,11 @@ public class InputManager : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         player.Movement(new Vector2(horizontal, 0));
+
+        int isJumping = Input.GetAxis("Jump");
+        if (isJumping == 1)
+        {
+            player.Jump();
+        }
 	}
 }
