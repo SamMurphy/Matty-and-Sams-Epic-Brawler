@@ -23,4 +23,9 @@ public class PlayerController : MonoBehaviour {
         direction.x *= speed;
         character.Move(new Vector3(direction.x, direction.y, 0) * Time.deltaTime);
     }
+
+    public void Jump()
+    {
+
+    }
 }
