@@ -4,15 +4,19 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     public float speed = 3.0f;
-    public float jumpHeight = 3.0f;
-    public float gravity = -10.0f;
+    public float JumpForce = 200.0f;
+
+    public LayerMask Ground;
+    public Transform groundCheck;
+
+    private bool grounded = false;
+    private bool secondJump = false;
 
     private Vector2 moveDirection;
 
     private Rigidbody2D rb2d;
-    private bool grounded = false;
-    public Transform groundCheck;
     private BoxCollider2D boxCollider;
+    
 
     // Use this for initialization
     void Start () 
@@ -26,19 +30,12 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        grounded = Physics2D.Linecast(transform.position + new Vector3(boxCollider.size.x / 2, boxCollider.size.y / 2, 0), groundCheck.position + new Vector3(boxCollider.size.x / 2, 0, 0), 1 << LayerMask.NameToLayer("Ground"));
-        if(!grounded)
-            grounded = Physics2D.Linecast(transform.position + new Vector3(-boxCollider.size.x / 2, boxCollider.size.y / 2, 0), groundCheck.position - new Vector3(boxCollider.size.x / 2, 0, 0), 1 << LayerMask.NameToLayer("Ground"));
-
-        if (moveDirection.y > 0)
-            grounded = false;
-
-        rb2d.velocity = moveDirection;        
-
-        moveDirection.y += gravity * Time.deltaTime;
+        grounded = Physics2D.OverlapCircle(groundCheck.position, 0.01f, Ground);
         if (grounded)
-            moveDirection.y = 0;
-
+        {
+            secondJump = false;
+        }
+        rb2d.velocity = new Vector2(moveDirection.x, rb2d.velocity.y);
         moveDirection.x = 0;
 	}
 
@@ -52,6 +49,18 @@ public class PlayerController : MonoBehaviour {
     public void Jump()
     {
         if (grounded)
-            moveDirection.y = jumpHeight;
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, 0f);
+            rb2d.AddForce(new Vector2(0f, JumpForce));
+        }
+        else
+        {
+            if (secondJump == false)
+            {
+                secondJump = true;
+                rb2d.velocity = new Vector2(rb2d.velocity.x, 0f);
+                rb2d.AddForce(new Vector2(0f, JumpForce));
+            }
+        }
     }
 }
