@@ -4,6 +4,8 @@ using System.Collections;
 public class InputManager : MonoBehaviour 
 {
     PlayerController player;
+    FightingScript fightScript;
+
     private bool isJumping = false;
 
     public string playerNumber;
@@ -11,7 +13,8 @@ public class InputManager : MonoBehaviour
     // Use this for initialization
     void Start () 
     {
-        player = GetComponent<PlayerController>();	
+        player = GetComponent<PlayerController>();
+        fightScript = GetComponent<FightingScript>();	
 	}
 	
 	// Update is called once per frame
@@ -28,5 +31,11 @@ public class InputManager : MonoBehaviour
         }
         if (isJumpPressed <= 0)
             isJumping = false;
+
+        float meleeAttack = Input.GetAxis("Fire" + playerNumber);
+        if(meleeAttack > 0)
+        {
+            fightScript.MeleeAttack();
+        }
 	}
 }

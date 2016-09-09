@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
     private bool secondJump = false;
 
     private Vector2 moveDirection;
+    private bool facingLeft = true;
 
     private Rigidbody2D rb2d;
     private BoxCollider2D boxCollider;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour {
 
     public void Movement(Vector2 direction)
     {
+        SetDirection(direction.x);
         direction.x *= speed;
         moveDirection.x += direction.x;
         Mathf.Clamp(moveDirection.x, -speed, speed);
@@ -61,6 +63,26 @@ public class PlayerController : MonoBehaviour {
                 rb2d.velocity = new Vector2(rb2d.velocity.x, 0f);
                 rb2d.AddForce(new Vector2(0f, JumpForce));
             }
+        }
+    }
+
+    public bool IsLeftFacing()
+    {
+        return facingLeft;
+    }
+
+    // Controls character direction
+    private void SetDirection(float xAxis)
+    {
+        if(xAxis < 0 && !facingLeft)
+        {
+            facingLeft = true;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
+        else if(xAxis > 0 && facingLeft)
+        {
+            facingLeft = false;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
     }
 }
