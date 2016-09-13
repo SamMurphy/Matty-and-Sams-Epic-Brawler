@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(PlayerController))]
 public class FightingScript : MonoBehaviour {
 
     // Other Scripts
