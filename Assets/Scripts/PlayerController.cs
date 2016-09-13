@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour {
 
     public float speed = 3.0f;
     public float JumpForce = 200.0f;
+    public float Health = 100f;
 
     public LayerMask Ground;
     public Transform groundCheck;
@@ -39,6 +40,11 @@ public class PlayerController : MonoBehaviour {
         rb2d.velocity = new Vector2(moveDirection.x, rb2d.velocity.y);
         moveDirection.x = 0;
 	}
+
+    public void TakeDamage(float damage)
+    {
+        Health -= damage;
+    }
 
     public void Movement(Vector2 direction)
     {

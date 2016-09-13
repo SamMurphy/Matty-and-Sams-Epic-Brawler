@@ -178,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   JumpForce: 300
+  Health: 100
   Ground:
     serializedVersion: 2
     m_Bits: 256
@@ -241,12 +242,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 116202fdbe150744eb5fb68cc635f45d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meleeDelay: 1
   meleeRange: 1
   meleeDamage: 1
   meleeDropOff: 1
   meleeStartPoint: 0
+  fireDelay: 1
   rangeAttackDamage: 1
-  rangeAttackProjectileSpeed: 1
+  rangeAttackRange: 10
+  rangeAttackProjectileSpeed: 20
   rangeAttackStartPoint: 0
 --- !u!1 &392722118
 GameObject:
@@ -554,6 +558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   JumpForce: 300
+  Health: 100
   Ground:
     serializedVersion: 2
     m_Bits: 256
@@ -597,11 +602,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 116202fdbe150744eb5fb68cc635f45d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meleeDelay: 1
   meleeRange: 1
   meleeDamage: 1
   meleeDropOff: 1
   meleeStartPoint: 0
+  fireDelay: 1
   rangeAttackDamage: 1
+  rangeAttackRange: 10
   rangeAttackProjectileSpeed: 1
   rangeAttackStartPoint: 0
 --- !u!1 &1051891113

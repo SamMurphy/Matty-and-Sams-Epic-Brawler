@@ -39,5 +39,11 @@ public class InputManager : MonoBehaviour
         {
             fightScript.MeleeAttack();
         }
+
+        float rangedAttack = Input.GetAxis("Ranged" + playerNumber);
+        if (rangedAttack > 0)
+        {
+            fightScript.ProjectileAttack();
+        }
 	}
 }
