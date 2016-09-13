@@ -37,7 +37,7 @@ public class FightingScript : MonoBehaviour {
         RaycastHit2D[] allHits = Physics2D.RaycastAll(startPoint, direction, meleeRange);
         foreach (RaycastHit2D hit in allHits) // Loops through all things that are hit when player does melee
         {
-            if (hit != null && hit.collider != null) // If the ray hits an object
+            if (hit.collider != null) // If the ray hits an object
             {
                 if (hit.transform.tag == "Player" && hit.transform != transform) // If object is a player and not itself
                 {

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(FightingScript))]
 public class InputManager : MonoBehaviour 
 {
     PlayerController player;
