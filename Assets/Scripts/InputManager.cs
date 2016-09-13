@@ -34,7 +34,7 @@ public class InputManager : MonoBehaviour
         if (isJumpPressed <= 0)
             isJumping = false;
 
-        float meleeAttack = Input.GetAxis("Fire" + playerNumber);
+        float meleeAttack = Input.GetAxis("Melee" + playerNumber);
         if(meleeAttack > 0)
         {
             fightScript.MeleeAttack();
