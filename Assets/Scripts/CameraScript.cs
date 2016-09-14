@@ -5,12 +5,13 @@ using System.Collections;
 public class CameraScript : MonoBehaviour {
     public float MinZoom = 5.0f;
     public float ZoomOffset = 1.0f;
+    public float MaxMoveSpeed = 1.0f;
     
 
     Camera camera;
 
     GameObject[] players;
-
+    
     Vector2 averagePosition;
 
 
@@ -42,6 +43,13 @@ public class CameraScript : MonoBehaviour {
 
         average = average / alivePlayers;
 
+
+        float currentX = camera.transform.position.x;
+        if (average.x > currentX + MaxMoveSpeed)
+            average.x = currentX + MaxMoveSpeed;
+        else if (average.x < currentX - MaxMoveSpeed)
+            average.x = currentX - MaxMoveSpeed;
+
         return average;
     }
 
@@ -56,16 +64,15 @@ public class CameraScript : MonoBehaviour {
             if (player.GetComponent<PlayerController>().Health > 0)
             {
                 float distanceToPlayer = Vector2.Distance(cameraVec2, new Vector2(player.transform.position.x, player.transform.position.y)) + ZoomOffset;
-                if(distanceToPlayer > distanceToMaxPlayer)
+                if (distanceToPlayer > distanceToMaxPlayer)
                 {
                     distanceToMaxPlayer = distanceToPlayer;
                 }
             }
         }
-
+        
         if (distanceToMaxPlayer > MinZoom)
             zoom = distanceToMaxPlayer;
-
         return zoom;
     }
 }
