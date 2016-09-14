@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour {
         moveDirection = new Vector2(0, 0);
         rb2d = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        transform.position = BestSpawnPoint();
     }
 	
 	// Update is called once per frame
@@ -158,10 +159,61 @@ public class PlayerController : MonoBehaviour {
         foreach (Collider2D collider in colliders)
             collider.enabled = true;
         Health = 100;
+        transform.position = BestSpawnPoint();
     }
 
     private void PermaDeath()
     {
 
+    }
+
+    private Vector2 BestSpawnPoint()
+    {
+        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawn");
+        GameObject bestSpawnPoint = spawnPoints[0];
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        float bestDistance = 0;
+
+        // Loop through spawn points
+        foreach(GameObject spawn in spawnPoints)
+        {
+            float shortestPlayerDistance = 0;
+
+            // Loop through players to get an intial shortest distance
+            foreach(GameObject player in players)
+            {
+                if (player.transform != transform && player.GetComponent<PlayerController>().Health > 0)
+                {
+                    shortestPlayerDistance = Vector2.Distance(player.transform.position, spawn.transform.position);
+                    break;
+                }
+            }
+
+            // Find the true shortest distance
+            foreach(GameObject player in players)
+            {
+                if(player.GetComponent<PlayerController>().Health > 0 && player.transform != transform)
+                {
+                    float distance = Vector2.Distance(player.transform.position, spawn.transform.position);
+                    if(distance < shortestPlayerDistance)
+                    {
+                        shortestPlayerDistance = distance;
+                    }
+                }
+            }
+
+            // If shortest distance is furthest away from previously checked spawns then use this one
+            if(shortestPlayerDistance > bestDistance)
+            {
+                bestDistance = shortestPlayerDistance;
+                bestSpawnPoint = spawn;
+            }
+        }
+
+        Vector2 spawnPosition = bestSpawnPoint.transform.position;
+
+        return spawnPosition;
     }
 }
