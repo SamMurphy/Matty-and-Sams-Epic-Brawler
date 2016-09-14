@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour {
         foreach (Collider2D collider in colliders)
             collider.enabled = true;
         Health = 100;
-        transform.position = BestSpawnPoint();
+        transform.position = ChooseSpawnPoint();
     }
 
     private void PermaDeath()
@@ -215,5 +215,35 @@ public class PlayerController : MonoBehaviour {
         Vector2 spawnPosition = bestSpawnPoint.transform.position;
 
         return spawnPosition;
+    }
+
+    /// <summary>
+    /// Calculate the best spawn point, based on the point that has the 
+    /// largest minimal distance to any player (far away as possible from any player)
+    /// </summary>
+    /// <returns>Position of spawn point</returns>
+    private Vector2 ChooseSpawnPoint()
+    {
+        Vector2 point = Vector2.zero;
+
+        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawn");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        float largestMinDistance = float.MinValue;
+        foreach (GameObject spawn in spawnPoints)
+        {
+            float minDistance = float.MaxValue;
+            foreach (GameObject player in players)
+            {
+                minDistance = Mathf.Min(minDistance, Vector2.Distance(spawn.transform.position, player.transform.position));
+            }
+            if (minDistance > largestMinDistance)
+            {
+                largestMinDistance = minDistance;
+                point = new Vector2(spawn.transform.position.x, spawn.transform.position.y);
+            }
+        }
+
+        return point;
     }
 }
