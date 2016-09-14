@@ -16,6 +16,11 @@ public class PickupScript : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        if (type == PickupType.Random)
+        {
+            type = (PickupType)Random.Range(1, 5);
+        }
+
         rb2d = GetComponent<Rigidbody2D>();
         rb2d.velocity = new Vector2(0, -BounceSpeed);
         initialPosition = new Vector2(transform.position.x, transform.position.y);

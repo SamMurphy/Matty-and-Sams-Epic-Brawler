@@ -4,15 +4,16 @@ using System.Collections;
 
 public enum PickupType
 {
-    Health,
-    Armour,
-    Damaage,
-    Speed,
+    Random = 0,
+    Health = 1,
+    Armour = 2,
+    Damaage = 3,
+    Speed = 4,
 }
 
 public class PickupSpawner : MonoBehaviour {
 
-    public PickupType type = PickupType.Health;
+    public PickupType type = PickupType.Random;
     public float RespawnTime = 10f;
 
     private float timer = 0f;
