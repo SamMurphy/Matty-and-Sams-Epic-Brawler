@@ -27,6 +27,8 @@ public class FightingScript : MonoBehaviour {
 
     bool canHit = true;
     float meleeTimer = 0f;
+
+    public float DamageBuff = 0f;
      
     void Start()
     {
@@ -35,6 +37,7 @@ public class FightingScript : MonoBehaviour {
 
     void Update()
     {
+        HandleBuffs();
         if (!canFire)
         {
             rangeTimer += Time.deltaTime;
@@ -73,7 +76,7 @@ public class FightingScript : MonoBehaviour {
                     // Calcualte damage
                     float hitDistance = hit.distance / meleeRange;
                     float damageReduction = hitDistance * meleeDropOff;
-                    float damage = meleeDamage * (1 - damageReduction);
+                    float damage = (meleeDamage + DamageBuff) * (1 - damageReduction);
 
                     PlayerController playerHit = hit.transform.gameObject.GetComponent<PlayerController>();
                     playerHit.Movement(direction);
@@ -103,7 +106,7 @@ public class FightingScript : MonoBehaviour {
 
         ProjectileScript projectileScript = projectile.GetComponent<ProjectileScript>();
         projectileScript.Speed = rangeAttackProjectileSpeed;
-        projectileScript.Damage = rangeAttackDamage;
+        projectileScript.Damage = rangeAttackDamage + DamageBuff;
         projectileScript.Owner = player;
         projectileScript.Range = rangeAttackRange;
         projectileScript.startingPoint = startPoint;
@@ -113,5 +116,17 @@ public class FightingScript : MonoBehaviour {
         else
             projectileScript.Direction = new Vector2(1.0f, 0.0f);
 
+    }
+
+    public void HandleBuffs()
+    {
+        if (DamageBuff > 0)
+        {
+            DamageBuff -= player.BuffReduction * Time.deltaTime;
+        }
+        else if (DamageBuff < 0)
+        {
+            DamageBuff = 0;
+        }
     }
 }

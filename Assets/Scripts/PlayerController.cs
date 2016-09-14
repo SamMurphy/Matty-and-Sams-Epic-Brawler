@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
     public float speed = 3.0f;
     public float JumpForce = 200.0f;
     public float Health = 100f;
+    public float Armour = 0f;
 
     public LayerMask Ground;
     public Transform groundCheck;
@@ -18,7 +19,9 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody2D rb2d;
     private BoxCollider2D boxCollider;
-    
+
+    public float SpeedBuff = 0f;
+    public float BuffReduction = 1.0f;
 
     // Use this for initialization
     void Start () 
@@ -32,6 +35,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
+        HandleBuffs();
         grounded = Physics2D.OverlapCircle(groundCheck.position, 0.01f, Ground);
         if (grounded)
         {
@@ -43,15 +47,36 @@ public class PlayerController : MonoBehaviour {
 
     public void TakeDamage(float damage)
     {
-        Health -= damage;
+        if (Armour > 0)
+        {
+            Armour -= damage;
+            if (Armour < 0)
+            {
+                Health += Armour;
+                Armour = 0;
+            }
+        }
+        else Health -= damage;
     }
 
     public void Movement(Vector2 direction)
     {
         SetDirection(direction.x);
-        direction.x *= speed;
+        direction.x *= speed + SpeedBuff;
         moveDirection.x += direction.x;
-        Mathf.Clamp(moveDirection.x, -speed, speed);
+        Mathf.Clamp(moveDirection.x, -speed - SpeedBuff, speed + SpeedBuff);
+    }
+
+    public void HandleBuffs()
+    {
+        if (SpeedBuff > 0)
+        {
+            SpeedBuff -= BuffReduction * Time.deltaTime;
+        }
+        else if (SpeedBuff < 0)
+        {
+            SpeedBuff = 0;
+        }
     }
 
     public void Jump()
