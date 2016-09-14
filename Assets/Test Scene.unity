@@ -190,7 +190,7 @@ MonoBehaviour:
   JumpForce: 300
   Health: 100
   Armour: 0
-  Lives: 3
+  Lives: 73
   DeathTime: 3
   Ground:
     serializedVersion: 2
