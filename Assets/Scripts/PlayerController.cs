@@ -237,7 +237,7 @@ public class PlayerController : MonoBehaviour {
             {
                 // Check player is live and not this player
                 PlayerController controller  = player.GetComponent<PlayerController>();
-                if (controller.Lives > 0 && player.transform != transform)
+                if (controller.Health > 0 && player.transform != transform)
                     minDistance = Mathf.Min(minDistance, 
                                             Vector2.Distance(spawn.transform.position, player.transform.position));
             }
