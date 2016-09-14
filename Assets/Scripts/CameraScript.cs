@@ -6,6 +6,7 @@ public class CameraScript : MonoBehaviour {
     public float MinZoom = 5.0f;
     public float ZoomOffset = 1.0f;
     public float MaxMoveSpeed = 1.0f;
+    public float MaxZoomSpeed = 0.1f;
     
 
     Camera camera;
@@ -50,6 +51,12 @@ public class CameraScript : MonoBehaviour {
         else if (average.x < currentX - MaxMoveSpeed)
             average.x = currentX - MaxMoveSpeed;
 
+        float currentY = camera.transform.position.y;
+        if (average.y > currentY + MaxMoveSpeed)
+            average.y = currentY + MaxMoveSpeed;
+        else if (average.y < currentY - MaxMoveSpeed)
+            average.y = currentY - MaxMoveSpeed;
+
         return average;
     }
 
@@ -70,9 +77,16 @@ public class CameraScript : MonoBehaviour {
                 }
             }
         }
-        
+
         if (distanceToMaxPlayer > MinZoom)
             zoom = distanceToMaxPlayer;
+
+        float currentZoom = camera.orthographicSize;
+        if (zoom > currentZoom + MaxZoomSpeed)
+            zoom = currentZoom + MaxZoomSpeed;
+        else if (zoom < currentZoom - MaxZoomSpeed)
+            zoom = currentZoom - MaxZoomSpeed;
+        
         return zoom;
     }
 }

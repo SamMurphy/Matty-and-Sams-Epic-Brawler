@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour {
     public float JumpForce = 200.0f;
     public float Health = 100f;
     public float Armour = 0f;
+    public int Lives = 3;
+    public float DeathTime = 3.0f;
 
     public LayerMask Ground;
     public Transform groundCheck;
@@ -23,6 +25,8 @@ public class PlayerController : MonoBehaviour {
     public float SpeedBuff = 0f;
     public float BuffReduction = 1.0f;
 
+    private float deathTimer = 0.0f;
+    
     // Use this for initialization
     void Start () 
     {
@@ -32,16 +36,29 @@ public class PlayerController : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () 
+	void Update ()
     {
-        HandleBuffs();
-        grounded = Physics2D.OverlapCircle(groundCheck.position, 0.01f, Ground);
-        if (grounded)
+        if (Health <= 0 && Lives > 0)
         {
-            secondJump = false;
+            deathTimer += Time.deltaTime;
+            if(deathTimer >= DeathTime)
+            {
+                deathTimer = 0;
+                Respawn();
+            }
+
         }
-        rb2d.velocity = new Vector2(moveDirection.x, rb2d.velocity.y);
-        moveDirection.x = 0;
+        else
+        {
+            HandleBuffs();
+            grounded = Physics2D.OverlapCircle(groundCheck.position, 0.01f, Ground);
+            if (grounded)
+            {
+                secondJump = false;
+            }
+            rb2d.velocity = new Vector2(moveDirection.x, rb2d.velocity.y);
+            moveDirection.x = 0;
+        }       
 	}
 
     public void TakeDamage(float damage)
@@ -56,6 +73,9 @@ public class PlayerController : MonoBehaviour {
             }
         }
         else Health -= damage;
+
+        if (Health <= 0)
+            Death();
     }
 
     public void Movement(Vector2 direction)
@@ -114,5 +134,34 @@ public class PlayerController : MonoBehaviour {
             facingLeft = false;
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
+    }
+
+    private void Death()
+    {
+        GetComponent<Renderer>().enabled = false;
+        GetComponent<InputManager>().enabled = false;
+        GetComponent<Rigidbody2D>().isKinematic = true;
+        Collider2D [] colliders = GetComponents<Collider2D>();
+        foreach (Collider2D collider in colliders)
+            collider.enabled = false;
+        Lives--;
+        if (Lives <= 0)
+            PermaDeath();
+    }
+
+    private void Respawn()
+    {
+        GetComponent<Renderer>().enabled = true;
+        GetComponent<InputManager>().enabled = true;
+        GetComponent<Rigidbody2D>().isKinematic = false;
+        Collider2D[] colliders = GetComponents<Collider2D>();
+        foreach (Collider2D collider in colliders)
+            collider.enabled = true;
+        Health = 100;
+    }
+
+    private void PermaDeath()
+    {
+
     }
 }
