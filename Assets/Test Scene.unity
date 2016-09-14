@@ -1455,6 +1455,16 @@ Prefab:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011761456266, guid: a1b82a35ff087964ea4234b233591bea,
+        type: 2}
+      propertyPath: MaxZoomSpeed
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011761456266, guid: a1b82a35ff087964ea4234b233591bea,
+        type: 2}
+      propertyPath: MaxMoveSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1b82a35ff087964ea4234b233591bea, type: 2}
   m_IsPrefabParent: 0
