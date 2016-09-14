@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour {
         moveDirection = new Vector2(0, 0);
         rb2d = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-
     }
 	
 	// Update is called once per frame

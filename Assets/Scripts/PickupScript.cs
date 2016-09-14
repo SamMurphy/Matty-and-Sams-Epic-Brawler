@@ -64,11 +64,3 @@ public class PickupScript : MonoBehaviour {
         }
     }
 }
-
-public enum PickupType
-{
-    Health,
-    Armour,
-    Damaage,
-    Speed,
-}
