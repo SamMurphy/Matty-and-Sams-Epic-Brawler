@@ -38,12 +38,6 @@ public class PickupSpawner : MonoBehaviour {
         }
     }
 
-    // Draw icon, for easier placement in editor
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawIcon(transform.position, "spawner.tif", true);
-    }
-
     void SpawnPickup()
     {
         GameObject pickup = Instantiate(Resources.Load<GameObject>("Prefabs/Pickup"));
